@@ -1,0 +1,129 @@
+////////////////////////////////////////////////////////////////////////////////
+// Filename: terrain.ps
+// // Code Adapted from a variety of terrain tutorials on http://www.rastertek.com
+////////////////////////////////////////////////////////////////////////////////
+
+
+/////////////
+// GLOBALS //
+/////////////
+Texture2D grassTexture : register(t0);
+Texture2D slopeTexture : register(t1);
+Texture2D rockTexture  : register(t2);
+Texture2D detailTexture : register(t3);
+SamplerState SampleType;
+
+cbuffer LightBuffer
+{
+	float4 ambientColor;
+	float4 diffuseColor;
+    float3 lightDirection;
+	float padding;
+};
+
+
+//////////////
+// TYPEDEFS //
+//////////////
+struct PixelInputType
+{
+    float4 position : SV_POSITION;
+	float4 tex : TEXCOORD0;
+	float3 normal : NORMAL;
+	float4 color : COLOR;
+	float4 depthPosition : TEXCOORD1;
+};
+
+
+////////////////////////////////////////////////////////////////////////////////
+// Pixel Shader
+////////////////////////////////////////////////////////////////////////////////
+float4 TerrainPixelShader(PixelInputType input) : SV_TARGET
+{
+    float depthValue;
+    float detailBrightness;
+    float4 detailColor;
+
+	float4 textureColor;
+    float3 lightDir;
+    float lightIntensity;
+    float4 color;
+
+	float4 grassColor;
+	float4 rockColor;
+	float4 slopeColor;
+	float slope;
+	float blendAmount;
+
+	 // Sample the grass color from the texture using the sampler at this texture coordinate location.
+    grassColor = grassTexture.Sample(SampleType, input.tex);
+
+    // Sample the slope color from the texture using the sampler at this texture coordinate location.
+    slopeColor = slopeTexture.Sample(SampleType, input.tex);
+
+    // Sample the rock color from the texture using the sampler at this texture coordinate location.
+    rockColor = rockTexture.Sample(SampleType, input.tex);
+
+	// Calculate the slope of this point.
+    slope = 1.0f - input.normal.y;
+
+    // Determine which texture to use based on height.
+    if(slope < 0.2)
+    {
+        blendAmount = slope / 0.2f;
+        textureColor = lerp(grassColor, slopeColor, blendAmount);
+    }
+	
+    if((slope < 0.6) && (slope >= 0.2f))
+    {
+        blendAmount = (slope - 0.1f) * (1.0f / (0.6f - 0.2f));
+        textureColor = lerp(slopeColor, rockColor, blendAmount);
+    }
+
+    if(slope >= 0.6) 
+    {
+        textureColor = rockColor;
+    }
+
+	// Get the depth value of the pixel by dividing the Z pixel depth by the homogeneous W coordinate.
+    depthValue = input.depthPosition.z / input.depthPosition.w;
+
+	// Check if the depth value is close to the screen, if so we will apply the detail texture.
+    if(depthValue < 50.0f)
+    {
+        // Sample the pixel color from the detail map texture using the sampler at this texture coordinate location.
+        detailColor = detailTexture.Sample(SampleType, input.tex.zw);
+
+        // Set the brightness of the detail texture.
+        detailBrightness = 1.8f;
+
+        // Combine the ground texture and the detail texture.  Also multiply in the detail brightness.
+        textureColor = textureColor * detailColor * detailBrightness;
+    }
+
+	// Set the default output color to the ambient light value for all pixels.
+    color = ambientColor;
+
+	// Invert the light direction for calculations.
+    lightDir = -lightDirection;
+
+    // Calculate the amount of light on this pixel.
+    lightIntensity = saturate(dot(input.normal, lightDir));
+
+	if(lightIntensity > 0.0f)
+    {
+        // Determine the final diffuse color based on the diffuse color and the amount of light intensity.
+        color += (diffuseColor * lightIntensity);
+    }
+
+    // Saturate the final light color.
+    color = saturate(color);
+
+	// Multiply the texture pixel and the final light color to get the result.
+    color = color * textureColor;
+	
+	// Combine the color map value into the final color.
+    color = saturate(color * input.color * 2.0f);
+
+    return color;
+}

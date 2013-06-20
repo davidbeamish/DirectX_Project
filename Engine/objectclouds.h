@@ -1,0 +1,44 @@
+////////////////////////////////////////////////////////////////////////////////
+// Filename: objectclouds.h
+////////////////////////////////////////////////////////////////////////////////
+#ifndef _OBJECTCLOUDS_H_
+#define _OBJECTCLOUDS_H_
+
+
+///////////////////////
+// MY  INCLUDES //
+///////////////////////
+
+#include "renderable.h"
+
+class Graphic;
+class D3D;
+class Camera;
+class ShaderManager;
+class Clouds;
+
+/////////////
+// GLOBALS //
+/////////////
+
+////////////////////////////////////////////////////////////////////////////////
+//  name: objectclouds
+////////////////////////////////////////////////////////////////////////////////
+class ObjectClouds : public Renderable
+{
+public:
+	ObjectClouds(D3D* d3d, WCHAR* cloudTextureFilename1,  WCHAR* cloudTextureFilename2, WCHAR* perturbTextureFilename);
+	ObjectClouds(const ObjectClouds&);
+	~ObjectClouds();
+
+	void Frame();
+
+	bool Render();
+	bool Render(GraphicsManager& graphicsManager, int renderPass);
+
+
+private:
+	Clouds* m_Clouds;
+};
+
+#endif

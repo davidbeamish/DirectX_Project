@@ -1,0 +1,79 @@
+////////////////////////////////////////////////////////////////////////////////
+// Filename: verticalblur.ps
+////////////////////////////////////////////////////////////////////////////////
+
+
+/////////////
+// GLOBALS //
+/////////////
+Texture2D shaderTexture;
+SamplerState SampleType;
+
+
+cbuffer BlurWeightingMatrixBufferType
+{
+float4 blurWeightingRow1;
+float4 blurWeightingRow2;
+float4 blurWeightingRow3;
+};
+
+
+//////////////
+// TYPEDEFS //
+//////////////
+struct PixelInputType
+{
+    float4 position : SV_POSITION;
+    float2 tex : TEXCOORD0;
+	float2 texCoord1 : TEXCOORD1;
+	float2 texCoord2 : TEXCOORD2;
+	float2 texCoord3 : TEXCOORD3;
+	float2 texCoord4 : TEXCOORD4;
+	float2 texCoord5 : TEXCOORD5;
+	float2 texCoord6 : TEXCOORD6;
+	float2 texCoord7 : TEXCOORD7;
+	float2 texCoord8 : TEXCOORD8;
+	float2 texCoord9 : TEXCOORD9;
+};
+
+
+////////////////////////////////////////////////////////////////////////////////
+// Pixel Shader
+////////////////////////////////////////////////////////////////////////////////
+float4 VerticalBlurPixelShader(PixelInputType input) : SV_TARGET
+{
+	float weight0, weight1, weight2, weight3, weight4;
+	float normalization;
+	float4 color;
+
+
+	// Create the weights that each neighbor pixel will contribute to the blur.
+	weight0 = 1.0f;
+	weight1 = 0.9f;
+	weight2 = 0.55f;
+	weight3 = 0.18f;
+	weight4 = 0.1f;
+
+	// Create a normalized value to average the weights out a bit.
+	//normalization = (weight0 + 2.0f * (weight1 + weight2 + weight3 + weight4));
+	normalization = (blurWeightingRow1.x + blurWeightingRow1.y + blurWeightingRow1.z + blurWeightingRow2.x + blurWeightingRow2.y + blurWeightingRow2.z +blurWeightingRow3.x + blurWeightingRow3.y  + blurWeightingRow3.z) / 18.0f;
+
+	// Initialize the color to black.
+	color = float4(0.0f, 0.0f, 0.0f, 0.0f);
+
+	// Add the nine vertical pixels to the color by the specific weight of each.
+	color += shaderTexture.Sample(SampleType, input.texCoord1) * blurWeightingRow1.x * normalization;
+	color += shaderTexture.Sample(SampleType, input.texCoord2) * blurWeightingRow1.y * normalization;
+	color += shaderTexture.Sample(SampleType, input.texCoord3) * blurWeightingRow1.z * normalization;
+	color += shaderTexture.Sample(SampleType, input.texCoord4) * blurWeightingRow2.x * normalization;
+	color += shaderTexture.Sample(SampleType, input.texCoord5) * blurWeightingRow2.y * normalization;
+	color += shaderTexture.Sample(SampleType, input.texCoord6) * blurWeightingRow2.z * normalization;
+	color += shaderTexture.Sample(SampleType, input.texCoord7) * blurWeightingRow3.x * normalization;
+	color += shaderTexture.Sample(SampleType, input.texCoord8) * blurWeightingRow3.y * normalization;
+	color += shaderTexture.Sample(SampleType, input.texCoord9) * blurWeightingRow3.z * normalization;
+
+	// Set the alpha channel to one.
+	color.a = 1.0f;
+
+    return color;
+}

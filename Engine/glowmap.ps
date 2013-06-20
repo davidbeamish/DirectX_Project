@@ -1,0 +1,55 @@
+////////////////////////////////////////////////////////////////////////////////
+// Filename: glowmap.ps
+////////////////////////////////////////////////////////////////////////////////
+
+
+#define LUMINOSITY_LIMIT 0.3
+
+
+/////////////
+// GLOBALS //
+/////////////
+Texture2D shaderTexture;
+SamplerState SampleType;
+cbuffer TintBufferType
+{
+    float4 tint;
+};
+
+
+//////////////
+// TYPEDEFS //
+//////////////
+struct PixelInputType
+{
+    float4 position : SV_POSITION;
+    float2 tex : TEXCOORD0;
+};
+
+////////////////////////////////////////////////////////////////////////////////
+// Vertex Shader
+////////////////////////////////////////////////////////////////////////////////
+float4 GlowMapPixelShader(PixelInputType input) : SV_TARGET
+{
+    float4 color;
+
+    // Sample the pixel color from the texture using the sampler at this texture coordinate location.
+    color = shaderTexture.Sample(SampleType, input.tex);
+
+    // Calculate the luminosity of the pixel/
+    float luminosity = dot(color.rgb, float3(0.333f, 0.333f, 0.333f));
+
+    // If the luminosity is below the limit, set the alpha to 0 otherwise the set the alpha to the luminosity .
+    if (luminosity < LUMINOSITY_LIMIT)
+	{
+        color.a = 0.0f;
+	}
+    else
+	{
+        color.a = luminosity;
+	}
+	// Calculate the pixel color
+	color = color * tint;
+
+    return color;
+}

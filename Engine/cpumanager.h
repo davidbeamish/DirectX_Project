@@ -1,0 +1,43 @@
+///////////////////////////////////////////////////////////////////////////////
+// Filename: cpumanager.h
+// Code Adapted from tutorial http://www.rastertek.com/dx11tut15.html
+///////////////////////////////////////////////////////////////////////////////
+#ifndef _CPUMANAGER_H_
+#define _CPUMANAGER_H_
+
+/////////////
+// LINKING //
+/////////////
+#pragma comment(lib, "pdh.lib")
+
+
+//////////////
+// INCLUDES //
+//////////////
+#include <pdh.h>
+
+
+///////////////////////////////////////////////////////////////////////////////
+//  name: CpuManager
+///////////////////////////////////////////////////////////////////////////////
+class CpuManager
+{
+public:
+	CpuManager();
+	CpuManager(const CpuManager&);
+	~CpuManager();
+
+	void Initialize();
+	void Shutdown();
+	void Update();
+	int GetCpuUsage() const;
+
+private:
+	bool m_canReadCpu;
+	HQUERY m_queryHandle;
+	HCOUNTER m_counterHandle;
+	unsigned long m_lastSampleTime;
+	long m_cpuUsage;
+};
+
+#endif //_CPU_MANAGER_H
