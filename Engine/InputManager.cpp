@@ -5,11 +5,38 @@
 #include "InputManager.h"
 
 
-Input::Input()
+Input::Input(const HINSTANCE hinstance, const HWND hwnd, const int screenWidth, const int screenHeight)
 {
-	m_directInput = 0;
-	m_keyboard = 0;
-	m_mouse = 0;
+	// Store the screen size which will be used for positioning the mouse cursor.
+	m_screenWidth = screenWidth;
+	m_screenHeight = screenHeight;
+
+	// Initialize the location of the mouse on the screen.
+	m_mouseX = 0,
+	m_mouseY = 0;
+
+	// Initialize the main direct input interface.
+	DirectInput8Create(hinstance, DIRECTINPUT_VERSION, IID_IDirectInput8, (void**)&m_directInput, NULL);
+
+	// Initialize the direct input interface for the keyboard.
+	m_directInput->CreateDevice(GUID_SysKeyboard, &m_keyboard, NULL);
+	
+	// Set the data format.  In this case since it is a keyboard we can use the predefined data format.
+	m_keyboard->SetDataFormat(&c_dfDIKeyboard);
+	
+	// Set the cooperative level of the keyboard to not share with other programs and acquire the keyboard.
+	m_keyboard->SetCooperativeLevel(hwnd, DISCL_FOREGROUND | DISCL_EXCLUSIVE);
+	m_keyboard->Acquire();
+	
+	// Initialize the direct input interface for the mouse.
+	m_directInput->CreateDevice(GUID_SysMouse, &m_mouse, NULL);
+
+	// Set the data format for the mouse using the pre-defined mouse data format.
+	m_mouse->SetDataFormat(&c_dfDIMouse);
+
+	// Set the cooperative level of the mouse to share with other programs and acquire the mouse.
+	m_mouse->SetCooperativeLevel(hwnd, DISCL_FOREGROUND | DISCL_NONEXCLUSIVE);
+	m_mouse->Acquire();
 }
 
 
@@ -19,91 +46,6 @@ Input::Input(const Input& other)
 
 
 Input::~Input()
-{
-}
-
-
-bool Input::Initialize(HINSTANCE hinstance, HWND hwnd, int screenWidth, int screenHeight)
-{
-	HRESULT result;
-
-
-	// Store the screen size which will be used for positioning the mouse cursor.
-	m_screenWidth = screenWidth;
-	m_screenHeight = screenHeight;
-
-	// Initialize the location of the mouse on the screen.
-	m_mouseX = 0;
-	m_mouseY = 0;
-
-	// Initialize the main direct input interface.
-	result = DirectInput8Create(hinstance, DIRECTINPUT_VERSION, IID_IDirectInput8, (void**)&m_directInput, NULL);
-	if(FAILED(result))
-	{
-		return false;
-	}
-
-	// Initialize the direct input interface for the keyboard.
-	result = m_directInput->CreateDevice(GUID_SysKeyboard, &m_keyboard, NULL);
-	if(FAILED(result))
-	{
-		return false;
-	}
-
-	// Set the data format.  In this case since it is a keyboard we can use the predefined data format.
-	result = m_keyboard->SetDataFormat(&c_dfDIKeyboard);
-	if(FAILED(result))
-	{
-		return false;
-	}
-
-	// Set the cooperative level of the keyboard to not share with other programs.
-	result = m_keyboard->SetCooperativeLevel(hwnd, DISCL_FOREGROUND | DISCL_EXCLUSIVE);
-	if(FAILED(result))
-	{
-		return false;
-	}
-
-	// Now acquire the keyboard.
-	result = m_keyboard->Acquire();
-	if(FAILED(result))
-	{
-		return false;
-	}
-
-	// Initialize the direct input interface for the mouse.
-	result = m_directInput->CreateDevice(GUID_SysMouse, &m_mouse, NULL);
-	if(FAILED(result))
-	{
-		return false;
-	}
-
-	// Set the data format for the mouse using the pre-defined mouse data format.
-	result = m_mouse->SetDataFormat(&c_dfDIMouse);
-	if(FAILED(result))
-	{
-		return false;
-	}
-
-	// Set the cooperative level of the mouse to share with other programs.
-	result = m_mouse->SetCooperativeLevel(hwnd, DISCL_FOREGROUND | DISCL_NONEXCLUSIVE);
-	if(FAILED(result))
-	{
-		return false;
-	}
-
-	// Acquire the mouse.
-	result = m_mouse->Acquire();
-	if(FAILED(result))
-	{
-		return false;
-	}
-
-	return true;
-}
-
-
-void Input::Shutdown()
 {
 	// Release the mouse.
 	if(m_mouse)
@@ -127,18 +69,117 @@ void Input::Shutdown()
 		m_directInput->Release();
 		m_directInput = 0;
 	}
-
-	return;
 }
 
 
-bool Input::Frame()
+//bool Input::Initialize(HINSTANCE hinstance, HWND hwnd, int screenWidth, int screenHeight)
+//{
+//	// Store the screen size which will be used for positioning the mouse cursor.
+//	m_screenWidth = screenWidth;
+//	m_screenHeight = screenHeight;
+//
+//	// Initialize the location of the mouse on the screen.
+//	m_mouseX = 0;
+//	m_mouseY = 0;
+//
+//	// Initialize the main direct input interface.
+//	HRESULT result = DirectInput8Create(hinstance, DIRECTINPUT_VERSION, IID_IDirectInput8, (void**)&m_directInput, NULL);
+//	if(FAILED(result))
+//	{
+//		return false;
+//	}
+//
+//	// Initialize the direct input interface for the keyboard.
+//	result = m_directInput->CreateDevice(GUID_SysKeyboard, &m_keyboard, NULL);
+//	if(FAILED(result))
+//	{
+//		return false;
+//	}
+//
+//	// Set the data format.  In this case since it is a keyboard we can use the predefined data format.
+//	result = m_keyboard->SetDataFormat(&c_dfDIKeyboard);
+//	if(FAILED(result))
+//	{
+//		return false;
+//	}
+//
+//	// Set the cooperative level of the keyboard to not share with other programs.
+//	result = m_keyboard->SetCooperativeLevel(hwnd, DISCL_FOREGROUND | DISCL_EXCLUSIVE);
+//	if(FAILED(result))
+//	{
+//		return false;
+//	}
+//
+//	// Now acquire the keyboard.
+//	result = m_keyboard->Acquire();
+//	if(FAILED(result))
+//	{
+//		return false;
+//	}
+//
+//	// Initialize the direct input interface for the mouse.
+//	result = m_directInput->CreateDevice(GUID_SysMouse, &m_mouse, NULL);
+//	if(FAILED(result))
+//	{
+//		return false;
+//	}
+//
+//	// Set the data format for the mouse using the pre-defined mouse data format.
+//	result = m_mouse->SetDataFormat(&c_dfDIMouse);
+//	if(FAILED(result))
+//	{
+//		return false;
+//	}
+//
+//	// Set the cooperative level of the mouse to share with other programs.
+//	result = m_mouse->SetCooperativeLevel(hwnd, DISCL_FOREGROUND | DISCL_NONEXCLUSIVE);
+//	if(FAILED(result))
+//	{
+//		return false;
+//	}
+//
+//	// Acquire the mouse.
+//	result = m_mouse->Acquire();
+//	if(FAILED(result))
+//	{
+//		return false;
+//	}
+//
+//	return true;
+//}
+
+
+//void Input::Shutdown()
+//{
+//	// Release the mouse.
+//	if(m_mouse)
+//	{
+//		m_mouse->Unacquire();
+//		m_mouse->Release();
+//		m_mouse = NULL;
+//	}
+//
+//	// Release the keyboard.
+//	if(m_keyboard)
+//	{
+//		m_keyboard->Unacquire();
+//		m_keyboard->Release();
+//		m_keyboard = NULL;
+//	}
+//
+//	// Release the main interface to direct input.
+//	if(m_directInput)
+//	{
+//		m_directInput->Release();
+//		m_directInput = NULL;
+//	}
+//}
+
+
+bool Input::Update()
 {
-	bool result;
-
-
 	// Read the current state of the keyboard.
-	result = ReadKeyboard();
+	bool result = ReadKeyboard();
 	if(!result)
 	{
 		return false;
@@ -206,15 +247,14 @@ void Input::ProcessInput()
 	m_mouseY += m_mouseState.lY;
 
 	// Ensure the mouse location doesn't exceed the screen width or height.
-	if(m_mouseX < 0) { 
+	if(m_mouseX < 0) 
 		m_mouseX = 0; 
-	}
-	if(m_mouseY < 0) { 
-		m_mouseY = 0; 
-	}
-
-	if(m_mouseX > m_screenWidth)  { m_mouseX = m_screenWidth; }
-	if(m_mouseY > m_screenHeight) { m_mouseY = m_screenHeight; }
+	if(m_mouseY < 0)  
+		m_mouseY = 0;
+	if(m_mouseX > m_screenWidth) 
+		m_mouseX = m_screenWidth;
+	if(m_mouseY > m_screenHeight) 
+		m_mouseY = m_screenHeight;
 	
 	return;
 }

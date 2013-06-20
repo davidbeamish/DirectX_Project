@@ -8,7 +8,6 @@
 //---------------------------------------------------------------------------//
 //                          Pre-Processing Directives						 //
 //---------------------------------------------------------------------------//
-
 #define DIRECTINPUT_VERSION 0x0800
 
 
@@ -31,13 +30,11 @@
 class Input
 {
 public:
-	Input();
+	Input(const HINSTANCE hinstance, const HWND hwnd, const int screenWidth, const int screenHeight);
 	Input(const Input&);
 	~Input();
 
-	bool Initialize(HINSTANCE hinstance, HWND hwnd, int screenWidth, int screenHeight);
-	void Shutdown();
-	bool Frame();
+	bool Update();
 
 	bool IsEscapePressed();
 	bool IsUpArrowPressed();

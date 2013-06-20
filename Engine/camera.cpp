@@ -22,19 +22,13 @@ Camera::~Camera()
 void Camera::Render()
 {
 	// Setup the vector that points upwards.
-	m_up.x = 0.0f;
-	m_up.y = 1.0f;
-	m_up.z = 0.0f;
+	m_up = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
 
 	// Setup the position of the camera in the world.
-	m_position.x = m_positionX;
-	m_position.y = m_positionY;
-	m_position.z = m_positionZ;
+	m_position = D3DXVECTOR3(m_positionX, m_positionY, m_positionZ);
 
 	// Setup where the camera is looking by default.
-	m_lookAt.x = 0.0f;
-	m_lookAt.y = 0.0f;
-	m_lookAt.z = 1.0f;
+	m_lookAt = D3DXVECTOR3(0.0f, 0.0f, 1.0f);
 
 	// Set the yaw (Y axis), pitch (X axis), and roll (Z axis) rotations in radians.
 	float pitch = m_rotationX * 0.0174532925f;
@@ -61,19 +55,13 @@ void Camera::Render()
 void Camera::RenderReflection(float height)
 {
 	// Setup the vector that points upwards.
-	m_up.x = 0.0f;
-	m_up.y = 1.0f;
-	m_up.z = 0.0f;
+	m_up = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
 
-	// Setup the position of the camera in the world.  For planar reflection invert the Y position of the camera.
-	m_position.x = m_positionX;
-	m_position.y = -m_positionY + (height * 2.0f);
-	m_position.z = m_positionZ;
+	// Setup the position of the camera in the world.
+	m_position = D3DXVECTOR3(m_positionX, -m_positionY + (height * 2.0f), m_positionZ);
 
 	// Setup where the camera is looking by default.
-	m_lookAt.x = 0.0f;
-	m_lookAt.y = 0.0f;
-	m_lookAt.z = 1.0f;
+	m_lookAt = D3DXVECTOR3(0.0f, 0.0f, 1.0f);
 
 	// Set the yaw (Y axis), pitch (X axis), and roll (Z axis) rotations in radians.  Invert the X rotation for reflection.
 	float pitch = -m_rotationX * 0.0174532925f;
@@ -96,7 +84,7 @@ void Camera::RenderReflection(float height)
 }
 
 
-void Camera::GetBillboardedWorldMatrix(D3DXMATRIX & out, D3DXVECTOR3 position)
+void Camera::GetBillboardedWorldMatrix(D3DXMATRIX & out, D3DXVECTOR3 position) const
 {
 	D3DXMATRIX rotationMatrix, translationMatrix;
 	D3DXVECTOR3 up = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
@@ -115,40 +103,3 @@ void Camera::GetBillboardedWorldMatrix(D3DXMATRIX & out, D3DXVECTOR3 position)
 	out = rotationMatrix * translationMatrix;
 }
 
-
-void Camera::GetViewMatrix(D3DXMATRIX& viewMatrix)
-{
-	viewMatrix = m_viewMatrix;
-}
-
-void Camera::GetReflectionViewMatrix(D3DXMATRIX& viewMatrix)
-{
-	viewMatrix = m_reflectionViewMatrix;
-}
-
-
-void Camera::SetPosition(float x, float y, float z)
-{
-	m_positionX = x;
-	m_positionY = y;
-	m_positionZ = z;
-}
-
-D3DXVECTOR3 Camera::GetPosition() const
-{
-	return D3DXVECTOR3(m_positionX, m_positionY, m_positionZ);
-}
-
-
-void Camera::SetRotation(float x, float y, float z)
-{
-	m_rotationX = x;
-	m_rotationY = y;
-	m_rotationZ = z;
-}
-
-
-D3DXVECTOR3 Camera::GetRotation() const
-{
-	return D3DXVECTOR3(m_rotationX, m_rotationY, m_rotationZ);
-}

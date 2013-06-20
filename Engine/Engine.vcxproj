@@ -12,12 +12,16 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="application.h" />
+    <ClInclude Include="Camera.h" />
     <ClInclude Include="colorshader.h" />
     <ClInclude Include="convolutionshader.h" />
+    <ClInclude Include="CpuManager.h" />
     <ClInclude Include="fireshader.h" />
+    <ClInclude Include="Fps.h" />
     <ClInclude Include="glowmapshader.h" />
     <ClInclude Include="glowshader.h" />
     <ClInclude Include="horizontalblurshader.h" />
+    <ClInclude Include="LightManager.h" />
     <ClInclude Include="objectbitmap.h" />
     <ClInclude Include="object.h" />
     <ClInclude Include="objectcursor.h" />
@@ -36,21 +40,17 @@
     <ClInclude Include="orthowindow.h" />
     <ClInclude Include="particleshader.h" />
     <ClInclude Include="particlegenerator.h" />
+    <ClInclude Include="Position.h" />
     <ClInclude Include="renderable.h" />
     <ClInclude Include="bitmap.h" />
-    <ClInclude Include="camera.h" />
-    <ClInclude Include="cpumanager.h" />
     <ClInclude Include="d3d.h" />
     <ClInclude Include="debugwindow.h" />
     <ClInclude Include="font.h" />
     <ClInclude Include="fontshader.h" />
-    <ClInclude Include="fps.h" />
     <ClInclude Include="graphicsmanager.h" />
     <ClInclude Include="InputManager.h" />
-    <ClInclude Include="lightmanager.h" />
     <ClInclude Include="lightshader.h" />
     <ClInclude Include="model.h" />
-    <ClInclude Include="position.h" />
     <ClInclude Include="purelightshader.h" />
     <ClInclude Include="reflectionshader.h" />
     <ClInclude Include="rendertexture.h" />
@@ -116,14 +116,18 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="application.cpp" />
+    <ClCompile Include="Camera.cpp" />
     <ClCompile Include="clouds.cpp" />
     <ClCompile Include="cloudsshader.cpp" />
     <ClCompile Include="colorshader.cpp" />
     <ClCompile Include="convolutionshader.cpp" />
+    <ClCompile Include="CpuManager.cpp" />
     <ClCompile Include="fireshader.cpp" />
+    <ClCompile Include="Fps.cpp" />
     <ClCompile Include="glowmapshader.cpp" />
     <ClCompile Include="glowshader.cpp" />
     <ClCompile Include="horizontalblurshader.cpp" />
+    <ClCompile Include="LightManager.cpp" />
     <ClCompile Include="objectbitmap.cpp" />
     <ClCompile Include="object.cpp" />
     <ClCompile Include="objectclouds.cpp" />
@@ -144,16 +148,12 @@
     <ClCompile Include="particlegenerator.cpp" />
     <ClCompile Include="renderable.cpp" />
     <ClCompile Include="bitmap.cpp" />
-    <ClCompile Include="camera.cpp" />
-    <ClCompile Include="cpumanager.cpp" />
     <ClCompile Include="d3d.cpp" />
     <ClCompile Include="debugwindow.cpp" />
     <ClCompile Include="font.cpp" />
     <ClCompile Include="fontshader.cpp" />
-    <ClCompile Include="fps.cpp" />
     <ClCompile Include="graphicsmanager.cpp" />
     <ClCompile Include="InputManager.cpp" />
-    <ClCompile Include="lightmanager.cpp" />
     <ClCompile Include="lightshader.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="model.cpp" />

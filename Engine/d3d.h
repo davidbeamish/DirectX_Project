@@ -35,20 +35,22 @@ public:
 	D3D(const D3D&);
 	~D3D();
 
-	bool Initialize(int, int, bool, HWND, bool, float, float);
+	bool Initialize(const int screenWidth, const int screenHeight, const bool vsync, const HWND hwnd, const bool fullscreen, 
+						 const float screenDepth, const float screenNear);
 	void Shutdown();
 	
-	void BeginScene(float, float, float, float);
+	void BeginScene(const float red, const float green, const float blue, const float alpha);
 	void EndScene();
 
-	ID3D11Device* GetDevice();
-	ID3D11DeviceContext* GetDeviceContext();
+	ID3D11Device* GetDevice() const {return m_device;}
+	ID3D11DeviceContext* GetDeviceContext() const {return m_deviceContext;}
+	ID3D11DepthStencilView* GetDepthStencilView() const {m_depthStencilView;}
 
-	void GetProjectionMatrix(D3DXMATRIX&);
-	void GetWorldMatrix(D3DXMATRIX&);
-	void GetOrthoMatrix(D3DXMATRIX&);
+	void GetProjectionMatrix(D3DXMATRIX& projectionMatrix) const {projectionMatrix = m_projectionMatrix;}
+	void GetWorldMatrix(D3DXMATRIX& worldMatrix) const {worldMatrix = m_worldMatrix;}
+	void GetOrthoMatrix(D3DXMATRIX& orthoMatrix) const {orthoMatrix = m_orthoMatrix;}
 
-	void GetVideoCardInfo(char*, int&);
+	void GetVideoCardInfo(char* cardName, int& memory);
 
 	void TurnZBufferOn();
 	void TurnZBufferOff();
@@ -57,8 +59,7 @@ public:
 	void TurnOnCulling();
 	void TurnOffCulling();
 	void TurnOnSecondaryAlphaBlending();
-
-	ID3D11DepthStencilView* GetDepthStencilView();
+	
 	void SetBackBufferRenderTarget();
 	void ResetViewport();
 
@@ -71,17 +72,11 @@ private:
 	ID3D11DeviceContext* m_deviceContext;
 	ID3D11RenderTargetView* m_renderTargetView;
 	ID3D11Texture2D* m_depthStencilBuffer;
-	ID3D11DepthStencilState* m_depthStencilState;
+	ID3D11DepthStencilState* m_depthStencilState, * m_depthDisabledStencilState;
 	ID3D11DepthStencilView* m_depthStencilView;
-	ID3D11RasterizerState* m_rasterState;
-	ID3D11RasterizerState* m_rasterStateNoCulling;
-	D3DXMATRIX m_projectionMatrix;
-	D3DXMATRIX m_worldMatrix;
-	D3DXMATRIX m_orthoMatrix;
-	ID3D11DepthStencilState* m_depthDisabledStencilState;
-	ID3D11BlendState* m_alphaEnableBlendingState;
-	ID3D11BlendState* m_alphaDisableBlendingState;
-	ID3D11BlendState* m_alphaBlendState2;
+	ID3D11RasterizerState* m_rasterState, * m_rasterStateNoCulling;
+	D3DXMATRIX m_projectionMatrix, m_worldMatrix, m_orthoMatrix;
+	ID3D11BlendState* m_alphaEnableBlendingState, * m_alphaDisableBlendingState, * m_alphaBlendState2;
 	D3D11_VIEWPORT viewport;
 };
 

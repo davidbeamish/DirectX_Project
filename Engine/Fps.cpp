@@ -35,8 +35,3 @@ void Fps::Update()
 		m_startTime = timeGetTime();
 	}
 }
-
-int Fps::GetFps() const
-{
-	return m_fps;
-}

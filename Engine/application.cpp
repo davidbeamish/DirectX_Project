@@ -42,19 +42,15 @@ bool Application::Initialize(HINSTANCE hinstance, HWND hwnd, int screenWidth, in
 	float cameraX, cameraY, cameraZ;
 
 	// Create the input object.  The input object will be used to handle reading the keyboard and mouse input from the user.
-	m_Input = new Input;
-	if(!m_Input)
-	{
-		return false;
-	}
+	m_Input = new Input(hinstance, hwnd, screenWidth, screenHeight);
 
-	// Initialize the input object.
-	result = m_Input->Initialize(hinstance, hwnd, screenWidth, screenHeight);
-	if(!result)
-	{
-		MessageBox(hwnd, L"Could not initialize the input object.", L"Error", MB_OK);
-		return false;
-	}
+	//// Initialize the input object.
+	//result = m_Input->Initialize();
+	//if(!result)
+	//{
+	//	MessageBox(hwnd, L"Could not initialize the input object.", L"Error", MB_OK);
+	//	return false;
+	//}
 
 
 	// Create the camera object.
@@ -209,7 +205,6 @@ void Application::Shutdown()
 	// Release the input object.
 	if(m_Input)
 	{
-		m_Input->Shutdown();
 		delete m_Input;
 		m_Input = 0;
 	}
@@ -224,7 +219,7 @@ bool Application::Frame()
 
 
 	// Read the user input.
-	result = m_Input->Frame();
+	result = m_Input->Update();
 	if(!result)
 	{
 		return false;

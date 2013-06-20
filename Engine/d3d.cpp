@@ -32,8 +32,8 @@ D3D::~D3D()
 }
 
 
-bool D3D::Initialize(int screenWidth, int screenHeight, bool vsync, HWND hwnd, bool fullscreen, 
-						  float screenDepth, float screenNear)
+bool D3D::Initialize(const int screenWidth, const int screenHeight, const bool vsync, const HWND hwnd, const bool fullscreen, 
+						 const float screenDepth, const float screenNear)
 {
 	HRESULT result;
 	IDXGIFactory* factory;
@@ -538,24 +538,16 @@ void D3D::Shutdown()
 }
 
 
-void D3D::BeginScene(float red, float green, float blue, float alpha)
+void D3D::BeginScene(const float red, const float green, const float blue, const float alpha)
 {
-	float color[4];
-
-
 	// Setup the color to clear the buffer to.
-	color[0] = red;
-	color[1] = green;
-	color[2] = blue;
-	color[3] = alpha;
+	float color[4] = {red, green, blue, alpha};
 
 	// Clear the back buffer.
 	m_deviceContext->ClearRenderTargetView(m_renderTargetView, color);
     
 	// Clear the depth buffer.
 	m_deviceContext->ClearDepthStencilView(m_depthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0);
-
-	return;
 }
 
 
@@ -572,41 +564,6 @@ void D3D::EndScene()
 		// Present as fast as possible.
 		m_swapChain->Present(0, 0);
 	}
-
-	return;
-}
-
-
-ID3D11Device* D3D::GetDevice()
-{
-	return m_device;
-}
-
-
-ID3D11DeviceContext* D3D::GetDeviceContext()
-{
-	return m_deviceContext;
-}
-
-
-void D3D::GetProjectionMatrix(D3DXMATRIX& projectionMatrix)
-{
-	projectionMatrix = m_projectionMatrix;
-	return;
-}
-
-
-void D3D::GetWorldMatrix(D3DXMATRIX& worldMatrix)
-{
-	worldMatrix = m_worldMatrix;
-	return;
-}
-
-
-void D3D::GetOrthoMatrix(D3DXMATRIX& orthoMatrix)
-{
-	orthoMatrix = m_orthoMatrix;
-	return;
 }
 
 
@@ -614,91 +571,58 @@ void D3D::GetVideoCardInfo(char* cardName, int& memory)
 {
 	strcpy_s(cardName, 128, m_videoCardDescription);
 	memory = m_videoCardMemory;
-	return;
 }
+
 
 void D3D::TurnZBufferOn()
 {
 	m_deviceContext->OMSetDepthStencilState(m_depthStencilState, 1);
-	return;
 }
 
 
 void D3D::TurnZBufferOff()
 {
 	m_deviceContext->OMSetDepthStencilState(m_depthDisabledStencilState, 1);
-	return;
 }
 
 void D3D::TurnOnAlphaBlending()
 {
-	float blendFactor[4];
-	
-
 	// Setup the blend factor.
-	blendFactor[0] = 0.0f;
-	blendFactor[1] = 0.0f;
-	blendFactor[2] = 0.0f;
-	blendFactor[3] = 0.0f;
+	float blendFactor[4] = {0.0f, 0.0f, 0.0f, 0.0f};
 	
 	// Turn on the alpha blending.
 	m_deviceContext->OMSetBlendState(m_alphaEnableBlendingState, blendFactor, 0xffffffff);
-
-	return;
 }
 
 void D3D::TurnOnSecondaryAlphaBlending()
 {
-	float blendFactor[4];
-
 	// Setup the blend factor.
-	blendFactor[0] = 0.0f;
-	blendFactor[1] = 0.0f;
-	blendFactor[2] = 0.0f;
-	blendFactor[3] = 0.0f;
-	
+	float blendFactor[4] = {0.0f, 0.0f, 0.0f, 0.0f};
+
 	// Turn on the alpha blending.
 	m_deviceContext->OMSetBlendState(m_alphaBlendState2, blendFactor, 0xffffffff);
-
-	return;
 }
 
 void D3D::TurnOffAlphaBlending()
 {
-	float blendFactor[4];
-	
-
 	// Setup the blend factor.
-	blendFactor[0] = 0.0f;
-	blendFactor[1] = 0.0f;
-	blendFactor[2] = 0.0f;
-	blendFactor[3] = 0.0f;
-	
+	float blendFactor[4] = {0.0f, 0.0f, 0.0f, 0.0f};
+
 	// Turn off the alpha blending.
 	m_deviceContext->OMSetBlendState(m_alphaDisableBlendingState, blendFactor, 0xffffffff);
-
-	return;
 }
 
-ID3D11DepthStencilView* D3D::GetDepthStencilView()
-{
-	return m_depthStencilView;
-}
 
 void D3D::SetBackBufferRenderTarget()
 {
 	// Bind the render target view and depth stencil buffer to the output render pipeline.
 	m_deviceContext->OMSetRenderTargets(1, &m_renderTargetView, m_depthStencilView);
-
-	return;
 }
 
 void D3D::TurnOnCulling()
 {
 	// Set the culling rasterizer state.
 	m_deviceContext->RSSetState(m_rasterState);
-
-	return;
 }
 
 
@@ -706,8 +630,6 @@ void D3D::TurnOffCulling()
 {
 	// Set the no back face culling rasterizer state.
 	m_deviceContext->RSSetState(m_rasterStateNoCulling);
-
-	return;
 }
 
 
@@ -716,6 +638,4 @@ void D3D::ResetViewport()
 {
 	// Set the viewport.
     m_deviceContext->RSSetViewports(1, &viewport);
-
-	return;
 }

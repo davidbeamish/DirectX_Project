@@ -34,10 +34,8 @@ public:
 	const float GetSpecularPower() const {return m_specularPower;}
 
 private:
-	D3DXVECTOR4 m_ambientColor;
-	D3DXVECTOR4 m_diffuseColor;
+	D3DXVECTOR4 m_ambientColor, m_diffuseColor, m_specularColor;
 	D3DXVECTOR3 m_direction;
-	D3DXVECTOR4 m_specularColor;
 	float m_specularPower;
 };
 

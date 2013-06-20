@@ -23,11 +23,11 @@ public:
 	~Fps();
 
 	void Update();
-	int GetFps() const;
+	int GetFps() const {return m_fps;}
 
 private:
 	int m_fps, m_count;
 	unsigned long m_startTime;
 };
 
-#endif
+#endif //_FPS_H_

@@ -57,9 +57,6 @@
     <ClInclude Include="shadermanager.h">
       <Filter>Header Files\Shaders</Filter>
     </ClInclude>
-    <ClInclude Include="camera.h">
-      <Filter>Header Files\System Managers</Filter>
-    </ClInclude>
     <ClInclude Include="d3d.h">
       <Filter>Header Files\Graphical Managers</Filter>
     </ClInclude>
@@ -118,12 +115,6 @@
       <Filter>Header Files\Renderables</Filter>
     </ClInclude>
     <ClInclude Include="application.h">
-      <Filter>Header Files\System Managers</Filter>
-    </ClInclude>
-    <ClInclude Include="fps.h">
-      <Filter>Header Files\System Managers</Filter>
-    </ClInclude>
-    <ClInclude Include="position.h">
       <Filter>Header Files\System Managers</Filter>
     </ClInclude>
     <ClInclude Include="sound.h">
@@ -210,14 +201,8 @@
     <ClInclude Include="graphicsmanager.h">
       <Filter>Header Files\Graphical Managers</Filter>
     </ClInclude>
-    <ClInclude Include="cpumanager.h">
-      <Filter>Header Files\System Managers</Filter>
-    </ClInclude>
     <ClInclude Include="particlegenerator.h">
       <Filter>Header Files\Geometry</Filter>
-    </ClInclude>
-    <ClInclude Include="lightmanager.h">
-      <Filter>Header Files\Graphical Managers</Filter>
     </ClInclude>
     <ClInclude Include="objectexplosionparticle.h">
       <Filter>Header Files\Renderables</Filter>
@@ -239,6 +224,21 @@
     </ClInclude>
     <ClInclude Include="InputManager.h">
       <Filter>Header Files\System Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="Position.h">
+      <Filter>Header Files\System Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>Header Files\System Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="CpuManager.h">
+      <Filter>Header Files\System Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="Fps.h">
+      <Filter>Header Files\System Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="LightManager.h">
+      <Filter>Header Files\Graphical Managers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -367,9 +367,6 @@
     <ClCompile Include="shadermanager.cpp">
       <Filter>Source Files\Shaders</Filter>
     </ClCompile>
-    <ClCompile Include="camera.cpp">
-      <Filter>Source Files\System Managers</Filter>
-    </ClCompile>
     <ClCompile Include="d3d.cpp">
       <Filter>Source Files\Graphical Managers</Filter>
     </ClCompile>
@@ -451,9 +448,6 @@
     <ClCompile Include="application.cpp">
       <Filter>Source Files\System Managers</Filter>
     </ClCompile>
-    <ClCompile Include="fps.cpp">
-      <Filter>Source Files\System Managers</Filter>
-    </ClCompile>
     <ClCompile Include="sound.cpp">
       <Filter>Source Files\System Managers</Filter>
     </ClCompile>
@@ -529,20 +523,26 @@
     <ClCompile Include="glowshader.cpp">
       <Filter>Source Files\Shaders</Filter>
     </ClCompile>
-    <ClCompile Include="cpumanager.cpp">
-      <Filter>Source Files\System Managers</Filter>
-    </ClCompile>
     <ClCompile Include="objectweatherparticle.cpp">
       <Filter>Source Files\Renderables</Filter>
     </ClCompile>
     <ClCompile Include="objectfireparticle.cpp">
       <Filter>Source Files\Renderables</Filter>
     </ClCompile>
-    <ClCompile Include="lightmanager.cpp">
-      <Filter>Source Files\Graphical Managers</Filter>
-    </ClCompile>
     <ClCompile Include="InputManager.cpp">
       <Filter>Source Files\System Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="CpuManager.cpp">
+      <Filter>Source Files\System Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>Source Files\System Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="Fps.cpp">
+      <Filter>Source Files\System Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="LightManager.cpp">
+      <Filter>Source Files\Graphical Managers</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
