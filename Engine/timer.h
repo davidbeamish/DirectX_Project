@@ -2,15 +2,8 @@
 // Filename: timer.h
 // Code Adapted from tutorial http://www.rastertek.com/dx11tut15.html
 ////////////////////////////////////////////////////////////////////////////////
-#ifndef _TIMER_H_
-#define _TIMER_H_
-
-
-//////////////
-// INCLUDES //
-//////////////
-#include <windows.h>
-
+#ifndef TIMER_H_
+#define TIMER_H_
 
 ////////////////////////////////////////////////////////////////////////////////
 //  name: Timer
@@ -23,16 +16,14 @@ public:
 	~Timer();
 
 	bool Initialize();
-	void Frame();
+	void Update();
 
-	float GetTime();
+	float GetTime() const {return m_frameTime;}
 
 private:
-	INT64 m_frequency;
-	float m_ticksPerMs;
-	INT64 m_startTime;
-	float m_frameTime;
+	INT64 m_frequency, m_startTime;
+	float m_ticksPerMs, m_frameTime;
 };
 
-#endif
+#endif //TIMER_H_
 

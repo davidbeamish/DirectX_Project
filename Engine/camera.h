@@ -20,38 +20,25 @@ class Camera
 public:
 	Camera();
 	Camera(const Camera&);
-	~Camera();
-
-	void SetPosition(float x, float y, float z);
-	void SetRotation(float x, float y, float z);
-
-	D3DXVECTOR3 GetPosition();
-	D3DXVECTOR3 GetRotation();
+	~Camera();	
 
 	void Render();
-	void GetViewMatrix(D3DXMATRIX& viewMatrix);
-
-	void GenerateBaseViewMatrix();
-	void GetBaseViewMatrix(D3DXMATRIX& baseViewMatrix);
-
-	void GenerateMapViewMatrix();
-	void GetMapViewMatrix(D3DXMATRIX& mapViewMatrix);	
-
 	void RenderReflection(float height);
-	void GetReflectionViewMatrix(D3DXMATRIX& viewMatrix);
 
+	void GetViewMatrix(D3DXMATRIX& viewMatrix);
+	void GetReflectionViewMatrix(D3DXMATRIX& viewMatrix);
 	void GetBillboardedWorldMatrix(D3DXMATRIX & out, D3DXVECTOR3 position);
 
-	void GetBillboardAlign(D3DXMATRIX& out);
-	void GetBillboardMatrix(D3DXMATRIX& out, D3DXVECTOR3 position);
+	void SetPosition(float x, float y, float z);
+	D3DXVECTOR3 GetPosition() const;
+
+	void SetRotation(float x, float y, float z);	
+	D3DXVECTOR3 GetRotation() const;;
 
 private:
-	float m_positionX, m_positionY, m_positionZ;
-	float m_rotationX, m_rotationY, m_rotationZ;
-
+	float m_positionX, m_positionY, m_positionZ, m_rotationX, m_rotationY, m_rotationZ;
 	D3DXVECTOR3 m_up, m_position, m_lookAt;
-
-	D3DXMATRIX m_viewMatrix, m_baseViewMatrix, m_reflectionViewMatrix, m_mapViewMatrix;
+	D3DXMATRIX m_viewMatrix, m_reflectionViewMatrix, m_mapViewMatrix;
 };
 
 #endif //_CAMERA_H_

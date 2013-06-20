@@ -2,6 +2,11 @@
 // Filename: timer.cpp
 // Code Adapted from tutorial http://www.rastertek.com/dx11tut15.html
 ///////////////////////////////////////////////////////////////////////////////
+
+//////////////
+// INCLUDES //
+//////////////
+#include <windows.h>
 #include "timer.h"
 
 
@@ -29,32 +34,22 @@ bool Timer::Initialize()
 	}
 
 	// Find out how many times the frequency counter ticks every millisecond.
-	m_ticksPerMs = (float)(m_frequency / 1000);
+	m_ticksPerMs = static_cast<float>(m_frequency / 1000);
 
 	QueryPerformanceCounter((LARGE_INTEGER*)&m_startTime);
 
 	return true;
 }
 
-void Timer::Frame()
+void Timer::Update()
 {
 	INT64 currentTime;
-	float timeDifference;
-
 
 	QueryPerformanceCounter((LARGE_INTEGER*)& currentTime);
 
-	timeDifference = (float)(currentTime - m_startTime);
+	float timeDifference = static_cast<float>(currentTime - m_startTime);
 
 	m_frameTime = timeDifference / m_ticksPerMs;
 
 	m_startTime = currentTime;
-
-	return;
 }
-
-float Timer::GetTime()
-{
-	return m_frameTime;
-}
-

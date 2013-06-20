@@ -2,8 +2,8 @@
 // Filename: sound.h
 // Code Adapted from tutorial http://www.rastertek.com/dx11tut14.html
 ///////////////////////////////////////////////////////////////////////////////
-#ifndef _SOUND_H_
-#define _SOUND_H_
+#ifndef SOUND_H_
+#define SOUND_H_
 
 /////////////
 // LINKING //
@@ -16,10 +16,7 @@
 //////////////
 // INCLUDES //
 //////////////
-#include <windows.h>
-#include <mmsystem.h>
 #include <dsound.h>
-#include <stdio.h>
  
  
 ///////////////////////////////////////////////////////////////////////////////
@@ -70,4 +67,4 @@ private:
 	IDirectSoundBuffer8* m_secondaryBuffer1;
 };
  
-#endif
+#endif //SOUND_H_

@@ -237,7 +237,7 @@ bool Application::Frame()
 	}
 
 	// Update the system stats.
-	m_Timer->Frame();
+	m_Timer->Update();
 	m_Fps->Update();
 	m_CpuManager->Update();
 

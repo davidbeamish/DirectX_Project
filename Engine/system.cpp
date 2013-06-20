@@ -23,13 +23,9 @@ System::~System()
 
 bool System::Initialize()
 {
-	int screenWidth, screenHeight;
-	bool result;
-
-
 	// Initialize the width and height of the screen to zero before sending the variables into the function.
-	screenWidth = 0;
-	screenHeight = 0;
+	int screenWidth = 0;
+	int screenHeight = 0;
 
 	// Initialize the windows api.
 	InitializeWindows(screenWidth, screenHeight);
@@ -42,7 +38,7 @@ bool System::Initialize()
 	}
 
 	// Initialize the application wrapper object.
-	result = m_Application->Initialize(m_hinstance, m_hwnd, screenWidth, screenHeight);
+	bool result = m_Application->Initialize(m_hinstance, m_hwnd, screenWidth, screenHeight);
 	if(!result)
 	{
 		return false;
@@ -70,15 +66,12 @@ void System::Shutdown()
 
 void System::Run()
 {
-	MSG msg;
-	bool done, result;
-
-
 	// Initialize the message structure.
+	MSG msg;
 	ZeroMemory(&msg, sizeof(MSG));
 	
 	// Loop until there is a quit message from the window or the user.
-	done = false;
+	bool done = false;
 	while(!done)
 	{
 		// Handle the windows messages.
@@ -96,14 +89,13 @@ void System::Run()
 		else
 		{
 			// Otherwise do the frame processing.
-			result = Frame();
+			bool result = Frame();
 			if(!result)
 			{
 				done = true;
 			}
 		}
 	}
-	return;
 }
 
 

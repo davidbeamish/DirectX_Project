@@ -2,8 +2,8 @@
 // Filename: position.h
 // Code Adapted from tutorial http://www.rastertek.com/tertut01.html
 ////////////////////////////////////////////////////////////////////////////////
-#ifndef _POSITION_H_
-#define _POSITION_H_
+#ifndef _POSITION_H
+#define _POSITION_H
 
 
 //////////////
@@ -46,4 +46,4 @@ private:
 		m_strafeLeftSpeed, m_strafeRightSpeed, m_lookUpSpeed, m_lookDownSpeed, m_frameTime;
 };
 
-#endif
+#endif //_POSITION_H

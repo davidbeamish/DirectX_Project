@@ -28,14 +28,13 @@ class Texture;
 class Font
 {
 private:
-
 	struct FontType
 	{
 		float left, right;
 		int size;
 	};
 
-struct VertexType
+	struct VertexType
 	{
 		D3DXVECTOR3 position;
 		D3DXVECTOR2 texture;
@@ -51,7 +50,7 @@ public:
 
 	ID3D11ShaderResourceView* GetTexture();
 
-void BuildVertexArray(void*, char*, float, float);
+	void BuildVertexArray(void*, char*, float, float);
 
 private:
 	bool LoadFontData(char*);

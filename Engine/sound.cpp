@@ -2,32 +2,27 @@
 // Filename: sound.cpp
 // Code Adapted from tutorial http://www.rastertek.com/dx11tut14.html
 ///////////////////////////////////////////////////////////////////////////////
+#include <windows.h>
+#include <mmsystem.h>
+#include <stdio.h>
 #include "sound.h"
 
-Sound::Sound()
-{
-	m_DirectSound = 0;
-	m_primaryBuffer = 0;
-	m_secondaryBuffer1 = 0;
-}
+Sound::Sound() : m_DirectSound(0), m_primaryBuffer(0), m_secondaryBuffer1(0)
+{}
  
  
 Sound::Sound(const Sound& other)
-{
-}
+{}
  
  
 Sound::~Sound()
-{
-}
+{}
  
  
 bool Sound::Initialize(HWND hwnd)
 {
-	bool result;
-
 	// Initialize direct sound and the primary sound buffer.
-	result = InitializeDirectSound(hwnd);
+	bool result = InitializeDirectSound(hwnd);
 	if(!result)
 	{
 		return false;
@@ -57,8 +52,6 @@ void Sound::Shutdown()
 
 	// Shutdown the Direct Sound API.
 	ShutdownDirectSound();
- 
-	return;
 }
 
 bool Sound::InitializeDirectSound(HWND hwnd)
@@ -132,8 +125,6 @@ void Sound::ShutdownDirectSound()
 		m_DirectSound->Release();
 		m_DirectSound = 0;
 	}
- 
-	return;
 }
 
 bool Sound::LoadWaveFile(char* filename, IDirectSoundBuffer8** secondaryBuffer)
@@ -307,17 +298,12 @@ void Sound::ShutdownWaveFile(IDirectSoundBuffer8** secondaryBuffer)
 		(*secondaryBuffer)->Release();
 		*secondaryBuffer = 0;
 	}
-
-	return;
 }
 
 bool Sound::PlayWaveFile()
 {
-	HRESULT result;
- 
- 
 	// Set position at the beginning of the sound buffer.
-	result = m_secondaryBuffer1->SetCurrentPosition(0);
+	HRESULT result = m_secondaryBuffer1->SetCurrentPosition(0);
 	if(FAILED(result))
 	{
 		return false;
